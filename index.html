@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форум по IT-Вопросам</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #111;
+            color: #eee;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: #000;
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(255,255,255,0.05);
+            border-bottom: 1px solid #333;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav ul li a:hover, nav ul li a.active {
+            color: #fff;
+            background-color: #333;
+        }
+        
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .auth-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            background: #222;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(255,255,255,0.05);
+            border: 1px solid #333;
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #ddd;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #333;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: #fff;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #666;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #000;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #333;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .auth-switch a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .auth-switch a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(255,255,255,0.05);
+            border: 1px solid #333;
+        }
+        
+        .forum-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #444;
+        }
+        
+        .forum-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .welcome-section h1 {
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        
+        .forum-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            background: #222;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(255,255,255,0.05);
+            border: 1px solid #333;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .stat-label {
+            color: #aaa;
+        }
+        
+        footer {
+            background-color: #000;
+            color: #aaa;
+            text-align: center;
+            padding: 1rem 0;
+            border-top: 1px solid #333;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 0.75rem;
+            }
+            
+            .forum-stats {
+                flex-direction: column;
+            }
+            
+            .stat-item {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .logout-btn {
+            background: none;
+            border: 1px solid #444;
+            color: #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background-color: #333;
+            color: #fff;
+        }
+        
+        .message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+        
+        .success {
+            background-color: #1a3c1a;
+            color: #8bc34a;
+            border: 1px solid #2d5a2d;
+        }
+        
+        .error {
+            background-color: #3c1a1a;
+            color: #c34a4a;
+            border: 1px solid #5a2d2d;
+        }
+        
+        .topics-container {
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(255,255,255,0.05);
+            border: 1px solid #333;
+            margin-top: 2rem;
+            padding: 1.5rem;
+        }
+        
+        .topics-container h2 {
+            color: #fff;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .topics-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+        
+        .topic-item {
+            background: #333;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #444;
+        }
+        
+        .topic-item h3 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .topic-item p {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Форум по IT-Вопросам</div>
+            <nav>
+                <ul id="nav-links">
+                    <li><a href="#" id="home-link" class="active">Главная</a></li>
+                    <li><a href="#" id="topics-link">Темы</a></li>
+                    <li><a href="#" id="login-link">Вход</a></li>
+                    <li><a href="#" id="register-link">Регистрация</a></li>
+                </ul>
+            </nav>
+            <div class="user-info" id="user-info">
+                <div class="user-avatar" id="user-avatar">U</div>
+                <span id="username-display">Пользователь</span>
+                <button class="logout-btn" id="logout-btn">Выйти</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="message success" id="success-message"></div>
+        <div class="message error" id="error-message"></div>
+
+        <div id="login-page" class="auth-container" style="display: none;">
+            <h2>Вход на форум</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Имя пользователя</label>
+                    <input type="text" id="login-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Пароль</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn">Войти</button>
+                <div class="auth-switch">
+                    <p>Нет аккаунта? <a href="#" id="to-register">Зарегистрироваться</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div id="register-page" class="auth-container" style="display: none;">
+            <h2>Регистрация на форуме</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="reg-username">Имя пользователя</label>
+                    <input type="text" id="reg-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">Email</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-password">Пароль</label>
+                    <input type="password" id="reg-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-confirm-password">Подтверждение пароля</label>
+                    <input type="password" id="reg-confirm-password" required>
+                </div>
+                <button type="submit" class="btn">Зарегистрироваться</button>
+                <div class="auth-switch">
+                    <p>Уже есть аккаунт? <a href="#" id="to-login">Войти</a></p>
+                </div>
+            </form>
+        </div>
+
+        <div id="home-page">
+            <div class="welcome-section">
+                <div class="forum-icon">
+                    <img src="53.jpg" alt="Логотип форума">
+                </div>
+                <h1>Добро пожаловать на наш форум!</h1>
+                <p>Здесь вы можете общаться с другими пользователями, задавать вопросы и делиться своими мыслями.</p>
+            </div>
+    <p class="video-description">Узнайте больше о нашем IT-сообществе</p>
+</div>
+            <div class="forum-stats">
+                <div class="stat-item">
+                    <div class="stat-number">1,245</div>
+                    <div class="stat-label">Пользователей</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5,678</div>
+                    <div class="stat-label">Тем</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">23,456</div>
+                    <div class="stat-label">Сообщений</div>
+                </div>
+            </div>
+        </div>
+        <div class="video-section">
+    <h2>Крутой момент</h2>
+    <div class="video-container">
+        <video controls poster="video-poster.jpg">
+            <source src="52.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео тег.
+        </video>
+    </div>
+
+        <div id="topics-page" class="topics-container" style="display: none;">
+            <h2>Популярные темы</h2>
+            <div class="topics-list">
+                <div class="topic-item">
+                    <h3>JavaScript для начинающих</h3>
+                    <p>Обсуждаем основы JavaScript, задаем вопросы и делимся опытом</p>
+                </div>
+                <div class="topic-item">
+                    <h3>Python и Data Science</h3>
+                    <p>Все о применении Python в анализе данных и машинном обучении</p>
+                </div>
+                <div class="topic-item">
+                    <h3>Веб-разработка</h3>
+                    <p>Frontend и Backend разработка, фреймворки и лучшие практики</p>
+                </div>
+                <div class="topic-item">
+                    <h3>Базы данных</h3>
+                    <p>SQL, NoSQL, оптимизация запросов и проектирование БД</p>
+                </div>
+                <div class="topic-item">
+                    <h3>DevOps и облачные технологии</h3>
+                    <p>Docker, Kubernetes, CI/CD и облачные платформы</p>
+                </div>
+                <div class="topic-item">
+                    <h3>Карьера в IT</h3>
+                    <p>Трудоустройство, собеседования и развитие в IT-сфере</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Кофман закрыл аккаунт, а в прожект зомбоид больше не пошли.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Элементы страницы
+        const pages = {
+            login: document.getElementById('login-page'),
+            register: document.getElementById('register-page'),
+            home: document.getElementById('home-page'),
+            topics: document.getElementById('topics-page')
+        };
+        
+        const links = {
+            login: document.getElementById('login-link'),
+            register: document.getElementById('register-link'),
+            home: document.getElementById('home-link'),
+            topics: document.getElementById('topics-link')
+        };
+        
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const userInfo = document.getElementById('user-info');
+        const userAvatar = document.getElementById('user-avatar');
+        const usernameDisplay = document.getElementById('username-display');
+        const logoutBtn = document.getElementById('logout-btn');
+        const successMessage = document.getElementById('success-message');
+        const errorMessage = document.getElementById('error-message');
+        const navLinks = document.getElementById('nav-links');
+
+        // Навигация
+        Object.keys(links).forEach(key => {
+            links[key].addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage(key);
+            });
+        });
+
+        document.getElementById('to-register').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('register');
+        });
+
+        document.getElementById('to-login').addEventListener('click', (e) => {
+            e.preventDefault();
+            showPage('login');
+        });
+
+        // Выход из системы
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            userInfo.style.display = 'none';
+            updateNavigation();
+            showPage('home');
+            showMessage('Вы вышли из системы', 'success');
+        });
+
+        // Обработка формы входа
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+            
+            const users = JSON.parse(localStorage.getItem('forumUsers') || '[]');
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                usernameDisplay.textContent = user.username;
+                userAvatar.textContent = user.username.charAt(0).toUpperCase();
+                userInfo.style.display = 'flex';
+                updateNavigation();
+                showPage('home');
+                showMessage(`Добро пожаловать, ${user.username}!`, 'success');
+            } else {
+                showMessage('Неверное имя пользователя или пароль', 'error');
+            }
+        });
+
+        // Обработка формы регистрации
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('reg-confirm-password').value;
+            
+            if (password !== confirmPassword) {
+                showMessage('Пароли не совпадают', 'error');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('forumUsers') || '[]');
+            
+            if (users.find(u => u.username === username)) {
+                showMessage('Имя пользователя уже занято', 'error');
+                return;
+            }
+            
+            if (users.find(u => u.email === email)) {
+                showMessage('Email уже зарегистрирован', 'error');
+                return;
+            }
+            
+            users.push({username, email, password});
+            localStorage.setItem('forumUsers', JSON.stringify(users));
+            
+            showMessage('Регистрация прошла успешно! Теперь вы можете войти.', 'success');
+            registerForm.reset();
+            showPage('login');
+        });
+
+        // Функция показа страницы
+        function showPage(page) {
+            Object.values(pages).forEach(p => p.style.display = 'none');
+            Object.values(links).forEach(link => link.classList.remove('active'));
+            
+            if (pages[page]) {
+                pages[page].style.display = 'block';
+                links[page].classList.add('active');
+            }
+        }
+
+        // Функция обновления навигации
+        function updateNavigation() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            const authLinks = navLinks.querySelectorAll('li:has(#login-link), li:has(#register-link)');
+            
+            authLinks.forEach(li => {
+                li.style.display = currentUser ? 'none' : 'list-item';
+            });
+        }
+
+        // Функция показа сообщений
+        function showMessage(text, type) {
+            const message = type === 'success' ? successMessage : errorMessage;
+            message.textContent = text;
+            message.style.display = 'block';
+            
+            setTimeout(() => {
+                message.style.display = 'none';
+            }, 5000);
+        }
+
+        // Инициализация
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+            
+            if (currentUser) {
+                usernameDisplay.textContent = currentUser.username;
+                userAvatar.textContent = currentUser.username.charAt(0).toUpperCase();
+                userInfo.style.display = 'flex';
+            }
+            
+            updateNavigation();
+            showPage('home');
+        });
+    </script>
+</body>
+</html>
